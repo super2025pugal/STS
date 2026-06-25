@@ -58,7 +58,6 @@ const Container: React.FC<{ children: React.ReactNode; className?: string }> = (
   className = '',
 }) => <div className={`container mx-auto px-4 sm:px-6 ${className}`}>{children}</div>;
 
-// 🔁 Updated Section with id prop for scrolling
 const Section: React.FC<{ children: React.ReactNode; className?: string; id?: string }> = ({
   children,
   className = '',
@@ -192,7 +191,8 @@ const CTAFooter: React.FC = () => (
     <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
       <div className="space-y-2 sm:space-y-3 text-center md:text-left">
         <Badge color="amber">Custom Sourcing</Badge>
-        <h3 className="font-serif text-xl sm:text-2xl md:text-3xl leading-tight">
+        {/* 👇 Explicitly added text-white to keep heading white */}
+        <h3 className="font-serif text-xl sm:text-2xl md:text-3xl leading-tight text-white">
           Can't Find What You Need?
         </h3>
         <p className="text-slate-300 text-xs sm:text-sm max-w-lg leading-relaxed">
@@ -276,7 +276,6 @@ const ProductsPage: React.FC = () => {
 
       <TrustBar />
 
-      {/* 🔁 Added id="products-catalog" to section for Learn More scroll */}
       <Section className="bg-slate-50 relative overflow-hidden" id="products-catalog">
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl" />
