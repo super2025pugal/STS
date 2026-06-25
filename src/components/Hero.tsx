@@ -41,6 +41,12 @@ const Hero: React.FC<HeroProps> = ({
     { Icon: Factory, label: 'Since 1984' },
   ];
 
+  const stats = [
+    { value: '500+', label: 'Manufacturers Served' },
+    { value: '10K+', label: 'Parts in Stock' },
+    { value: '25+',  label: 'Years of Excellence' },
+  ];
+
   const containerVar = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
@@ -52,22 +58,20 @@ const Hero: React.FC<HeroProps> = ({
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden" style={{ paddingTop: '80px' }}>
-      {/* Background */}
+
+      {/* ── Background ─────────────────────────────────────────────────────── */}
       <div className="absolute inset-0 z-0">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('${bgImage}')` }}
         />
-        {/* Deep gradient overlay — navy-heavy for drama */}
         <div
           className="absolute inset-0"
           style={{
             background: 'linear-gradient(105deg, rgba(13,27,42,0.92) 0%, rgba(13,27,42,0.78) 50%, rgba(13,27,42,0.55) 100%)',
           }}
         />
-        {/* Precision grid overlay */}
         <div className="absolute inset-0 eng-grid-dark opacity-60" />
-        {/* Amber radial glow — subtle, on left */}
         <div
           className="absolute bottom-0 left-0 w-96 h-96 pointer-events-none"
           style={{
@@ -76,7 +80,7 @@ const Hero: React.FC<HeroProps> = ({
         />
       </div>
 
-      {/* Content */}
+      {/* ── Content ────────────────────────────────────────────────────────── */}
       <div className="container relative z-10 py-20">
         <motion.div
           variants={containerVar}
@@ -117,9 +121,12 @@ const Hero: React.FC<HeroProps> = ({
                 </h1>
               </motion.div>
 
-              {/* Thin amber rule */}
+              {/* Amber rule */}
               <motion.div variants={itemVar}>
-                <span className={`block h-0.5 w-14 rounded-full ${!isHomePage ? 'mx-auto' : ''}`} style={{ background: 'var(--amber)' }} />
+                <span
+                  className={`block h-0.5 w-14 rounded-full ${!isHomePage ? 'mx-auto' : ''}`}
+                  style={{ background: 'var(--amber)' }}
+                />
               </motion.div>
 
               {/* Subtitle */}
@@ -161,22 +168,25 @@ const Hero: React.FC<HeroProps> = ({
               )}
             </div>
 
-            {/* Right panel — Why Choose Us card */}
+            {/* ── Right panel — Why Choose Us card ─────────────────────────── */}
             {isHomePage && (
               <div className="lg:col-span-5">
                 <motion.div variants={itemVar}>
                   <div
-                    className="rounded-2xl p-7 border"
+                    className="rounded-2xl p-5 sm:p-7 border"
                     style={{
                       background: 'rgba(255,255,255,0.04)',
                       backdropFilter: 'blur(20px)',
                       borderColor: 'rgba(255,255,255,0.12)',
                     }}
                   >
+                    {/* Card header */}
                     <div className="flex items-center gap-3 mb-6">
-                      <span className="w-2 h-2 rounded-full amber-pulse" style={{ background: 'var(--amber)' }} />
+                      <span className="w-2 h-2 rounded-full amber-pulse flex-shrink-0" style={{ background: 'var(--amber)' }} />
                       <h3 className="text-white font-bold text-base tracking-wide">Why Manufacturers Choose Us</h3>
                     </div>
+
+                    {/* Key points */}
                     <div className="space-y-4">
                       {keyPoints.map((pt, i) => (
                         <div key={i} className="flex items-start gap-3">
@@ -185,25 +195,46 @@ const Hero: React.FC<HeroProps> = ({
                         </div>
                       ))}
                     </div>
+
+                    {/* ── Stats row ──────────────────────────────────────────
+                        FIX: replaced `flex justify-between` with a 3-column grid.
+                        On very small screens (< 360 px) the old flex row was
+                        cramming three items — the numbers and labels overflowed
+                        or wrapped unpredictably. A CSS grid ensures each stat
+                        gets exactly 1/3 of the card width at every viewport,
+                        the dividers stay centred, and nothing overflows.
+                    ──────────────────────────────────────────────────────── */}
                     <div
-                      className="mt-7 pt-5 border-t flex items-center justify-between"
+                      className="mt-7 pt-5 border-t grid grid-cols-3"
                       style={{ borderColor: 'rgba(255,255,255,0.1)' }}
                     >
-                      <div>
-                        <div className="text-white font-bold text-2xl" style={{ fontFamily: '"DM Serif Display", serif' }}>500+</div>
-                        <div className="text-steel text-xs tracking-wide">Manufacturers Served</div>
-                      </div>
-                      <div className="w-px h-10 bg-white/10" />
-                      <div>
-                        <div className="text-white font-bold text-2xl" style={{ fontFamily: '"DM Serif Display", serif' }}>10K+</div>
-                        <div className="text-steel text-xs tracking-wide">Parts in Stock</div>
-                      </div>
-                      <div className="w-px h-10 bg-white/10" />
-                      <div>
-                        <div className="text-white font-bold text-2xl" style={{ fontFamily: '"DM Serif Display", serif' }}>25+</div>
-                        <div className="text-steel text-xs tracking-wide">Years of Excellence</div>
-                      </div>
+                      {stats.map(({ value, label }, i) => (
+                        <React.Fragment key={value}>
+                          {/* Divider — between items only, never before first */}
+                          {i > 0 && (
+                            <div className="col-span-0 flex items-center justify-center">
+                              {/* rendered inside the grid cell below via border-l */}
+                            </div>
+                          )}
+                          <div
+                            className={`flex flex-col items-center text-center px-1 sm:px-2 ${
+                              i > 0 ? 'border-l border-white/10' : ''
+                            }`}
+                          >
+                            <div
+                              className="text-white font-bold text-xl sm:text-2xl leading-tight"
+                              style={{ fontFamily: '"DM Serif Display", serif' }}
+                            >
+                              {value}
+                            </div>
+                            <div className="text-steel text-[10px] sm:text-xs tracking-wide mt-0.5 leading-snug">
+                              {label}
+                            </div>
+                          </div>
+                        </React.Fragment>
+                      ))}
                     </div>
+
                   </div>
                 </motion.div>
               </div>
@@ -213,24 +244,8 @@ const Hero: React.FC<HeroProps> = ({
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 cursor-pointer"
-        onClick={handleScrollDown}
-      >
-        <span className="text-steel text-xs tracking-widest uppercase">Scroll</span>
-        <div className="w-5 h-8 rounded-full border border-white/30 flex items-center justify-center">
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-1 h-2 rounded-full"
-            style={{ background: 'var(--amber)' }}
-          />
-        </div>
-      </motion.div>
+      {/* Scroll indicator — REMOVED as requested */}
+
     </section>
   );
 };
