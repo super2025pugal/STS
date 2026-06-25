@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
 
   const socialLinks = [
     { href: 'https://www.facebook.com/profile.php?id=61576335147558', Icon: Facebook, label: 'Facebook' },
-    { href: 'https://www.instagram.com/super_group_of_companies/', Icon: Instagram, label: 'Instagram' },
+   { href: 'https://www.instagram.com/supergroupcbe?igsh=ZWhzNW14cWRwMnZx', Icon: Instagram, label: 'Instagram' },
     { href: 'https://www.linkedin.com/in/super-group-9bb6b3365/', Icon: Linkedin, label: 'LinkedIn' },
     { href: 'https://www.youtube.com/@SuperGroupscbe', Icon: Youtube, label: 'YouTube' },
   ];
