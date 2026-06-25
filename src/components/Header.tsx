@@ -41,9 +41,7 @@ const Header: React.FC = () => {
 
             {/* Logo + Brand */}
             <Link to="/" className="flex items-center gap-3 group flex-shrink-0" onClick={() => setIsMenuOpen(false)}>
-              <div className={`rounded-xl p-1.5 transition-all duration-300 ${
-                scrolled ? 'bg-white/10' : 'bg-white/15 group-hover:bg-white/20'
-              }`}>
+              <div className="rounded-xl p-2 bg-white/20 transition-all duration-300 group-hover:bg-white/30">
                 <img
                   src={logoSHEI}
                   alt="Super Textile Services logo"
