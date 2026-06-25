@@ -71,7 +71,6 @@ const Container: React.FC<{ children: React.ReactNode; className?: string }> = (
   className = '',
 }) => <div className={`container mx-auto px-4 sm:px-6 ${className}`}>{children}</div>;
 
-// 🔁 Updated Section to accept id prop
 const Section: React.FC<{ children: React.ReactNode; className?: string; id?: string }> = ({
   children,
   className = '',
@@ -251,7 +250,8 @@ const EcosystemBlock: React.FC = () => {
           className="lg:col-span-3 space-y-4 sm:space-y-6"
         >
           <Badge color="amber">One Ecosystem</Badge>
-          <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight">
+          {/* 👇 Added explicit text-white to keep "Building India's" white */}
+          <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-white">
             Building India's <br />
             <span className="bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent">
               Industrial Backbone
@@ -347,7 +347,6 @@ const GroupPage: React.FC = () => {
         learnMoreTargetId="group-portfolio"
       />
 
-      {/* 🔁 Added id="group-portfolio" to the main section */}
       <Section className="bg-slate-50" id="group-portfolio">
         <Container>
           {/* Header */}
