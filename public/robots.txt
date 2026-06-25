@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /firebase-admin
+
+Sitemap: https://www.supergroupscbe.com/sitemap.xml

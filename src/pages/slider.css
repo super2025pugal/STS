@@ -1,0 +1,192 @@
+/* Custom Styles for Parts Inventory Slider */
+
+/* Override slick slider dots for parts inventory */
+.parts-inventory-slider .slick-dots {
+  bottom: -40px;
+}
+
+.parts-inventory-slider .slick-dots li button:before {
+  font-size: 10px;
+  color: #3b82f6;
+  opacity: 0.5;
+}
+
+.parts-inventory-slider .slick-dots li.slick-active button:before {
+  opacity: 1;
+  color: #2563eb;
+}
+
+/* Custom arrow styles for parts inventory */
+.parts-inventory-slider .slick-prev,
+.parts-inventory-slider .slick-next {
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+}
+
+.parts-inventory-slider .slick-prev {
+  left: -50px;
+}
+
+.parts-inventory-slider .slick-next {
+  right: -50px;
+}
+
+.parts-inventory-slider .slick-prev:before,
+.parts-inventory-slider .slick-next:before {
+  font-size: 40px;
+  color: #3b82f6;
+  opacity: 0.8;
+}
+
+.parts-inventory-slider .slick-prev:hover:before,
+.parts-inventory-slider .slick-next:hover:before {
+  opacity: 1;
+  color: #2563eb;
+}
+
+/* Responsive adjustments for arrows */
+@media (max-width: 1280px) {
+  .parts-inventory-slider .slick-prev {
+    left: -30px;
+  }
+  
+  .parts-inventory-slider .slick-next {
+    right: -30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .parts-inventory-slider .slick-prev,
+  .parts-inventory-slider .slick-next {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .parts-inventory-slider .slick-prev {
+    left: -10px;
+  }
+  
+  .parts-inventory-slider .slick-next {
+    right: -10px;
+  }
+  
+  .parts-inventory-slider .slick-prev:before,
+  .parts-inventory-slider .slick-next:before {
+    font-size: 32px;
+  }
+}
+
+/* Mobile view with 2 items - better spacing */
+@media (max-width: 640px) {
+  .parts-inventory-slider .slick-prev {
+    left: 0;
+    top: 45%;
+  }
+  
+  .parts-inventory-slider .slick-next {
+    right: 0;
+    top: 45%;
+  }
+  
+  .parts-inventory-slider .slick-prev:before,
+  .parts-inventory-slider .slick-next:before {
+    font-size: 24px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Better spacing for mobile 2-item view */
+  .parts-inventory-slider .slick-slide > div {
+    padding: 0 4px !important;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  .parts-inventory-slider .slick-slide > div {
+    padding: 0 3px !important;
+  }
+}
+
+/* Smooth slide transitions */
+.parts-inventory-slider .slick-slide {
+  transition: all 0.3s ease-in-out;
+}
+
+.parts-inventory-slider .slick-slide > div {
+  padding: 0 8px;
+}
+
+@media (min-width: 768px) {
+  .parts-inventory-slider .slick-slide > div {
+    padding: 0 12px;
+  }
+}
+
+/* Ensure proper spacing and alignment */
+.parts-inventory-slider .slick-list {
+  margin: 0 -8px;
+  padding: 20px 0 60px 0 !important;
+  overflow: visible;
+}
+
+@media (min-width: 768px) {
+  .parts-inventory-slider .slick-list {
+    margin: 0 -12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .parts-inventory-slider .slick-list {
+    margin: 0 -4px;
+    padding: 15px 0 50px 0 !important;
+  }
+}
+
+/* Loading state */
+.parts-inventory-slider .slick-loading .slick-slide {
+  visibility: hidden;
+}
+
+/* Focus states for accessibility */
+.parts-inventory-slider .slick-slide:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 4px;
+}
+
+/* Autoplay pause on hover enhancement */
+.parts-inventory-slider:hover .slick-slide {
+  transform: scale(0.98);
+}
+
+.parts-inventory-slider .slick-slide.slick-active {
+  transform: scale(1);
+}
+
+/* Text truncation for long titles */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Ensure full image visibility on mobile */
+@media (max-width: 640px) {
+  .parts-inventory-slider .slick-track {
+    display: flex !important;
+    align-items: stretch;
+  }
+  
+  .parts-inventory-slider .slick-slide {
+    height: auto;
+  }
+  
+  .parts-inventory-slider .slick-slide > div {
+    height: 100%;
+  }
+  
+  .parts-inventory-slider .slick-slide > div > div {
+    height: 100%;
+  }
+}
