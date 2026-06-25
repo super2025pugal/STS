@@ -41,12 +41,6 @@ const Hero: React.FC<HeroProps> = ({
     { Icon: Factory, label: 'Since 1984' },
   ];
 
-  const stats = [
-    { value: '500+', label: 'Manufacturers Served' },
-    { value: '10K+', label: 'Parts in Stock' },
-    { value: '25+',  label: 'Years of Excellence' },
-  ];
-
   const containerVar = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
@@ -196,43 +190,46 @@ const Hero: React.FC<HeroProps> = ({
                       ))}
                     </div>
 
-                    {/* ── Stats row ──────────────────────────────────────────
-                        FIX: replaced `flex justify-between` with a 3-column grid.
-                        On very small screens (< 360 px) the old flex row was
-                        cramming three items — the numbers and labels overflowed
-                        or wrapped unpredictably. A CSS grid ensures each stat
-                        gets exactly 1/3 of the card width at every viewport,
-                        the dividers stay centred, and nothing overflows.
-                    ──────────────────────────────────────────────────────── */}
+                    {/* ── Stats row ── */}
                     <div
-                      className="mt-7 pt-5 border-t grid grid-cols-3"
+                      className="mt-7 pt-5 border-t flex items-center"
                       style={{ borderColor: 'rgba(255,255,255,0.1)' }}
                     >
-                      {stats.map(({ value, label }, i) => (
-                        <React.Fragment key={value}>
-                          {/* Divider — between items only, never before first */}
-                          {i > 0 && (
-                            <div className="col-span-0 flex items-center justify-center">
-                              {/* rendered inside the grid cell below via border-l */}
-                            </div>
-                          )}
-                          <div
-                            className={`flex flex-col items-center text-center px-1 sm:px-2 ${
-                              i > 0 ? 'border-l border-white/10' : ''
-                            }`}
-                          >
-                            <div
-                              className="text-white font-bold text-xl sm:text-2xl leading-tight"
-                              style={{ fontFamily: '"DM Serif Display", serif' }}
-                            >
-                              {value}
-                            </div>
-                            <div className="text-steel text-[10px] sm:text-xs tracking-wide mt-0.5 leading-snug">
-                              {label}
-                            </div>
-                          </div>
-                        </React.Fragment>
-                      ))}
+                      {/* Stat 1 */}
+                      <div className="flex-1 flex flex-col items-center text-center">
+                        <div className="text-white font-bold text-xl sm:text-2xl leading-tight" style={{ fontFamily: '"DM Serif Display", serif' }}>
+                          500+
+                        </div>
+                        <div className="text-steel text-[10px] sm:text-xs tracking-wide mt-0.5 leading-snug">
+                          Manufacturers<br />Served
+                        </div>
+                      </div>
+
+                      {/* Divider */}
+                      <div className="w-px self-stretch bg-white/10 mx-1" />
+
+                      {/* Stat 2 */}
+                      <div className="flex-1 flex flex-col items-center text-center">
+                        <div className="text-white font-bold text-xl sm:text-2xl leading-tight" style={{ fontFamily: '"DM Serif Display", serif' }}>
+                          10K+
+                        </div>
+                        <div className="text-steel text-[10px] sm:text-xs tracking-wide mt-0.5 leading-snug">
+                          Parts in<br />Stock
+                        </div>
+                      </div>
+
+                      {/* Divider */}
+                      <div className="w-px self-stretch bg-white/10 mx-1" />
+
+                      {/* Stat 3 */}
+                      <div className="flex-1 flex flex-col items-center text-center">
+                        <div className="text-white font-bold text-xl sm:text-2xl leading-tight" style={{ fontFamily: '"DM Serif Display", serif' }}>
+                          25+
+                        </div>
+                        <div className="text-steel text-[10px] sm:text-xs tracking-wide mt-0.5 leading-snug">
+                          Years of<br />Excellence
+                        </div>
+                      </div>
                     </div>
 
                   </div>
