@@ -1,374 +1,437 @@
-import React, { Suspense } from 'react';
+// src/pages/ContactPage.tsx
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Package,
-  Wrench,
-  Settings,
-  TrendingUp,
-  ChevronRight,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  ArrowRight,
+  MessageCircle,
+  Building2,
+  Factory,
+  Send,
+  Star,
 } from 'lucide-react';
-import Slider from 'react-slick';
-
 import SEO from '../components/SEO';
 import Hero from '../components/Hero';
-import SectionTitle from '../components/SectionTitle';
-import ServiceCard from '../components/ServiceCard';
+import ContactImg from './contact.jpg';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
-// Parts Inventory Slider Settings – fully responsive
-const partsInventorySettings = {
-  dots: true,
-  infinite: true,
-  speed: 600,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 2000,
-  pauseOnHover: true,
-  cssEase: "ease-in-out",
-  responsive: [
-    { breakpoint: 1536, settings: { slidesToShow: 4, slidesToScroll: 1 } },
-    { breakpoint: 1280, settings: { slidesToShow: 3, slidesToScroll: 1 } },
-    { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 1 } },
-    { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-    { breakpoint: 640, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-    { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-    { breakpoint: 360, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-  ],
-};
-
-// Parts Categories Data
-const partsCategories = [
-  { name: 'Gears & Transmission', count: '1,200+', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=300&q=80' },
-  { name: 'Belts & Pulleys', count: '800+', image: 'https://v4i.rweb-images.com/www.torsion-th.com/images/editor/blog8.jpg' },
-  { name: 'Bearings', count: '2,500+', image: 'https://tse2.mm.bing.net/th/id/OIP.gzmjprlDuRoZ0lhVeK5NSAHaEJ?pid=ImgDet&w=474&h=265&rs=1&o=7&rm=3' },
-  { name: 'Rollers', count: '900+', image: '/images/products/spare2.png' },
-  { name: 'Rotor Body', count: '600+', image: '/images/products/spare3.png' },
-  { name: 'Yarn Sensor', count: '1,100+', image: '/images/products/yarn_sensor.png' },
-  { name: 'Drawframe Accessories', count: '750+', image: '/images/products/spare14.png' },
-  { name: 'Inserts', count: '950+', image: '/images/products/spare6.png' },
+// ─── Contact data ───────────────────────────────────────────────
+const contactItems = [
+  {
+    Icon: Building2,
+    label: 'Head Office',
+    content: '100/A, Athipalayam Road, Chinnavedempatti\nCoimbatore – 641006',
+  },
+  {
+    Icon: Factory,
+    label: 'Factory Address',
+    content: 'S.F.No: 581/1, Athipalayam Road\nChinnavedempatti, Coimbatore – 641049',
+  },
+  {
+    Icon: Phone,
+    label: 'Phone',
+    content: '+91 99429 09628',
+    href: 'tel:+919942909628',
+  },
+  {
+    Icon: Mail,
+    label: 'Email',
+    content: 'spares@supergroupscbe.com',
+    href: 'mailto:spares@supergroupscbe.com',
+  },
+  {
+    Icon: Clock,
+    label: 'Business Hours',
+    content: 'Mon – Sat: 9:00 AM – 6:00 PM\nSunday: Closed',
+  },
 ];
 
-const HomePage: React.FC = () => {
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-    },
+// ─── Main Component ─────────────────────────────────────────────
+const ContactPage: React.FC = () => {
+  // ── Enquiry form state ──
+  const [enquiryName, setEnquiryName] = useState('');
+  const [enquiryEmail, setEnquiryEmail] = useState('');
+  const [enquiryPhone, setEnquiryPhone] = useState('');
+  const [enquiryMessage, setEnquiryMessage] = useState('');
+
+  // ── Feedback form state ──
+  const [feedbackName, setFeedbackName] = useState('');
+  const [feedbackEmail, setFeedbackEmail] = useState('');
+  const [feedbackRating, setFeedbackRating] = useState<number>(5);
+  const [feedbackComment, setFeedbackComment] = useState('');
+
+  // ── Handlers ──
+  const handleEnquirySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent('Enquiry from Super Textile Services Website');
+    const body = encodeURIComponent(
+      `Name: ${enquiryName}\nEmail: ${enquiryEmail}\nPhone: ${enquiryPhone}\n\nMessage:\n${enquiryMessage}`
+    );
+    window.location.href = `mailto:spares@supergroupscbe.com?subject=${subject}&body=${body}`;
+  };
+
+  const handleFeedbackSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent('Feedback from Super Textile Services Website');
+    const body = encodeURIComponent(
+      `Name: ${feedbackName}\nEmail: ${feedbackEmail}\nRating: ${feedbackRating} / 5\n\nComment:\n${feedbackComment}`
+    );
+    window.location.href = `mailto:spares@supergroupscbe.com?subject=${subject}&body=${body}`;
   };
 
   return (
     <>
       <SEO
-        title="Contact Super Textile Services | Spare Parts Enquiry | Coimbatore"
-        description="Contact Super Textile Services for spare parts enquiry and technical support. Based in Coimbatore, Tamil Nadu, serving textile manufacturers globally."
-        keywords="spare parts enquiry, technical support, Coimbatore, Tamil Nadu, contact textile machinery supplier"
-        canonicalUrl="https://www.supergroupscbe.com/contact"
-        ogImage="/images/hero1.png"
-        schema={[
-          {
-            '@context': 'https://schema.org',
-            '@type': ['LocalBusiness', 'ProfessionalService'],
-            name: 'Super Textile Services',
-            image: 'https://www.supergroupscbe.com/images/hero1.png',
-            '@id': 'https://www.supergroupscbe.com/#localbusiness',
-            url: 'https://www.supergroupscbe.com/contact',
-            telephone: '+91-99429-09628',
-            email: 'spares@supergroupscbe.com',
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: '100/A, Athipalayam Road, Chinnavedempatti',
-              addressLocality: 'Coimbatore',
-              addressRegion: 'Tamil Nadu',
-              postalCode: '641006',
-              addressCountry: 'IN',
-            },
-            geo: {
-              '@type': 'GeoCoordinates',
-              latitude: 11.056621,
-              longitude: 76.9810948,
-            },
-            openingHoursSpecification: [
-              {
-                '@type': 'OpeningHoursSpecification',
-                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-                opens: '09:00',
-                closes: '18:00',
-              },
-            ],
-            priceRange: '$$',
-            currenciesAccepted: 'INR, USD',
-            paymentAccepted: 'Cash, Bank Transfer, UPI',
-          },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.supergroupscbe.com/' },
-              { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://www.supergroupscbe.com/contact' },
-            ],
-          },
-        ]}
+        title="Contact Super Textile Services | Textile Machine Spares in Coimbatore"
+        description="Contact Super Textile Services for enquiries related to textile machine spares, pricing, and technical assistance. Located in Coimbatore, Tamil Nadu."
+        keywords="contact Super Textile Services, textile spares enquiry, STS Coimbatore"
       />
 
-      <Hero learnMoreTargetId="textile-excellence" />
+      <Hero
+        title="Get in Touch"
+        subtitle="Our team of textile machinery specialists is ready to help with parts enquiries, technical support, and project consultancy."
+        backgroundImages={[ContactImg]}
+        hideExploreButton
+        showFeatureCard={false}
+        learnMoreTargetId="contact-body"
+      />
 
-      {/* Visual Impact Section – fully responsive */}
-      <section className="py-12 sm:py-16 md:py-24 lg:py-32 bg-gradient-to-br from-slate-50 to-indigo-50/60 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-30 pointer-events-none">
-          <div className="absolute top-0 -right-20 w-80 h-80 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl" />
-          <div className="absolute bottom-0 -left-20 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl" />
-        </div>
-
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-center">
-            {/* Left: Content */}
+      {/* ═══ Contact Section ═══ */}
+      <section
+        id="contact-body"
+        className="section py-8 sm:py-12 lg:py-16 bg-slate-50"
+      >
+        <div className="container px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 lg:gap-12">
+            {/* ── Info Sidebar ── */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="order-2 lg:order-1 text-center lg:text-left"
+              transition={{ duration: 0.7 }}
+              className="lg:col-span-4"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-indigo-100/80 border border-indigo-200/60 rounded-full mb-4 sm:mb-6 backdrop-blur-sm">
-                <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-indigo-600 rounded-full animate-pulse" />
-                <span className="text-[10px] sm:text-xs md:text-sm font-semibold text-indigo-800 tracking-wide uppercase">
-                  Trusted by 500+ Manufacturers
-                </span>
-              </div>
+              <div className="bg-gradient-to-br from-[#0b1a33] to-[#0f2444] rounded-2xl p-6 sm:p-8 h-full shadow-xl text-white relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,215,0,0.05),transparent_70%)] pointer-events-none" />
+                <div className="relative z-10">
+                  <span className="inline-block text-[0.7rem] font-semibold tracking-[0.15em] uppercase text-amber-400 mb-3">
+                    Reach Out
+                  </span>
+                  <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-2 text-white">
+                    Contact Information
+                  </h2>
+                  <div className="w-10 h-0.5 bg-amber-400 mb-5 rounded" />
+                  <p className="text-sm sm:text-base text-slate-300/70 leading-relaxed mb-6">
+                    Reach our office using the details below. All enquiries are responded to
+                    within 2 business hours.
+                  </p>
 
-              <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900">
-                Keeping the World's Textile{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">
-                  Machinery Running
-                </span>
-              </h2>
+                  {/* Contact items */}
+                  <div className="space-y-5">
+                    {contactItems.map(({ Icon, label, content, href }, i) => (
+                      <div key={i} className="flex gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <Icon size={18} className="text-amber-400" />
+                        </div>
+                        <div>
+                          <div className="text-[0.65rem] font-semibold tracking-[0.12em] uppercase text-amber-400 mb-0.5">
+                            {label}
+                          </div>
+                          {href ? (
+                            <a
+                              href={href}
+                              className="text-sm sm:text-base text-slate-200/80 hover:text-amber-400 transition-colors block"
+                            >
+                              {content}
+                            </a>
+                          ) : (
+                            <p className="text-sm sm:text-base text-slate-200/80 whitespace-pre-line">
+                              {content}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
-              <p className="mt-3 sm:mt-4 md:mt-6 text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                From spinning frames to ring frames, from draw frames to roving machines—we supply
-                the critical components that keep textile production flowing. Every bearing, every
-                gear, every belt matters when efficiency is measured in seconds.
-              </p>
-
-              <div className="mt-5 sm:mt-6 md:mt-8 flex flex-wrap gap-2 sm:gap-3 md:gap-4 justify-center lg:justify-start">
-                <a
-                  href="/products"
-                  className="inline-flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-lg shadow-indigo-200 hover:shadow-indigo-300 hover:bg-indigo-700 transition-all duration-300 hover:scale-105 text-xs sm:text-sm md:text-base"
-                >
-                  Explore Parts <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
-                </a>
-                <a
-                  href="/contact"
-                  className="inline-flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 bg-white text-gray-700 font-semibold rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-300 text-xs sm:text-sm md:text-base"
-                >
-                  Get in Touch
-                </a>
+                  {/* WhatsApp CTA */}
+                  <div className="mt-8 pt-6 border-t border-white/10">
+                    <p className="text-[0.7rem] font-medium tracking-[0.1em] uppercase text-slate-400/60 mb-2">
+                      Need immediate help?
+                    </p>
+                    <a
+                      href="https://wa.me/9942909628"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#25D366] text-white font-semibold text-sm shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/40 hover:scale-105 transition-transform duration-200"
+                    >
+                      <MessageCircle size={18} />
+                      WhatsApp Us
+                      <ArrowRight size={16} />
+                    </a>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
-            {/* Right: Image Grid */}
+            {/* ── Enquiry Form ── */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="grid grid-cols-2 gap-2 xs:gap-3 sm:gap-4 order-1 lg:order-2"
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="lg:col-span-8"
             >
-              <div className="space-y-2 xs:space-y-3 sm:space-y-4">
-                <div className="relative h-28 xs:h-36 sm:h-44 md:h-56 lg:h-64 rounded-2xl overflow-hidden shadow-lg shadow-indigo-100/50 group">
-                  <img
-                    src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80"
-                    alt="Textile manufacturing"
-                    width="600"
-                    height="400"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
-                  <span className="absolute bottom-1.5 left-1.5 xs:bottom-2 xs:left-2 sm:bottom-3 sm:left-3 text-[8px] xs:text-xs sm:text-sm font-semibold text-white bg-black/30 px-1.5 py-0.5 xs:px-2 xs:py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm">
-                    Manufacturing
-                  </span>
-                </div>
-                <div className="relative h-36 xs:h-44 sm:h-56 md:h-64 lg:h-72 rounded-2xl overflow-hidden shadow-lg shadow-blue-100/50 group">
-                  <img
-                    src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=600&q=80"
-                    alt="Quality control"
-                    width="600"
-                    height="400"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
-                  <span className="absolute bottom-1.5 left-1.5 xs:bottom-2 xs:left-2 sm:bottom-3 sm:left-3 text-[8px] xs:text-xs sm:text-sm font-semibold text-white bg-black/30 px-1.5 py-0.5 xs:px-2 xs:py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm">
-                    Quality Control
-                  </span>
-                </div>
-              </div>
-              <div className="space-y-2 xs:space-y-3 sm:space-y-4 pt-2 xs:pt-3 sm:pt-4 md:pt-8 lg:pt-12">
-                <div className="relative h-36 xs:h-44 sm:h-56 md:h-64 lg:h-72 rounded-2xl overflow-hidden shadow-lg shadow-indigo-100/50 group">
-                  <img
-                    src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80"
-                    alt="Precision parts"
-                    width="600"
-                    height="400"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
-                  <span className="absolute bottom-1.5 left-1.5 xs:bottom-2 xs:left-2 sm:bottom-3 sm:left-3 text-[8px] xs:text-xs sm:text-sm font-semibold text-white bg-black/30 px-1.5 py-0.5 xs:px-2 xs:py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm">
-                    Precision Parts
-                  </span>
-                </div>
-                <div className="relative h-28 xs:h-36 sm:h-44 md:h-56 lg:h-64 rounded-2xl overflow-hidden shadow-lg shadow-blue-100/50 group">
-                  <img
-                    src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=600&q=80"
-                    alt="R&D"
-                    width="600"
-                    height="400"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
-                  <span className="absolute bottom-1.5 left-1.5 xs:bottom-2 xs:left-2 sm:bottom-3 sm:left-3 text-[8px] xs:text-xs sm:text-sm font-semibold text-white bg-black/30 px-1.5 py-0.5 xs:px-2 xs:py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm">
-                    R&D
-                  </span>
-                </div>
+              <div className="bg-white rounded-2xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-200/60">
+                <span className="inline-block text-[0.7rem] font-semibold tracking-[0.15em] uppercase text-amber-400 mb-2">
+                  Send a Message
+                </span>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 mb-1">
+                  Send Us an Enquiry
+                </h2>
+                <p className="text-sm sm:text-base text-slate-500 mb-6">
+                  Fill in the form and click submit – your email client will open with a
+                  pre‑filled message.
+                </p>
+
+                <form onSubmit={handleEnquirySubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label
+                        htmlFor="enquiry-name"
+                        className="block text-sm font-medium text-slate-700 mb-1"
+                      >
+                        Full Name *
+                      </label>
+                      <input
+                        id="enquiry-name"
+                        type="text"
+                        required
+                        value={enquiryName}
+                        onChange={(e) => setEnquiryName(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50/50 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all outline-none text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="enquiry-email"
+                        className="block text-sm font-medium text-slate-700 mb-1"
+                      >
+                        Email Address *
+                      </label>
+                      <input
+                        id="enquiry-email"
+                        type="email"
+                        required
+                        value={enquiryEmail}
+                        onChange={(e) => setEnquiryEmail(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50/50 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all outline-none text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="enquiry-phone"
+                      className="block text-sm font-medium text-slate-700 mb-1"
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      id="enquiry-phone"
+                      type="tel"
+                      value={enquiryPhone}
+                      onChange={(e) => setEnquiryPhone(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50/50 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all outline-none text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="enquiry-message"
+                      className="block text-sm font-medium text-slate-700 mb-1"
+                    >
+                      Your Message *
+                    </label>
+                    <textarea
+                      id="enquiry-message"
+                      required
+                      rows={5}
+                      value={enquiryMessage}
+                      onChange={(e) => setEnquiryMessage(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50/50 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all outline-none text-sm resize-y"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm shadow-lg shadow-slate-900/25 hover:shadow-slate-900/35 hover:-translate-y-0.5 transition-all duration-200"
+                  >
+                    <Send size={18} />
+                    Send Enquiry
+                  </button>
+                  <p className="text-xs text-slate-400 mt-2">
+                    By submitting, your default email client will open. No data is stored on our
+                    server.
+                  </p>
+                </form>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Core Services */}
-      <section id="textile-excellence" className="py-12 sm:py-16 md:py-24 bg-white">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
-          <SectionTitle
-            title="Our Core Services"
-            subtitle="Comprehensive solutions for textile manufacturing operations"
-            className="text-gray-800"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-6 sm:mt-8 md:mt-12">
-            <Suspense fallback={<div className="col-span-4 text-center">Loading...</div>}>
-              <ServiceCard
-                icon={<Package className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-indigo-600" />}
-                title="Genuine Spare Parts"
-                description="Authentic imported components and premium alternatives for all textile machinery."
-                link="/products"
-                delay={0.1}
-                className="group bg-gray-50/80 backdrop-blur-sm border border-gray-100 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-100/50 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300 hover:-translate-y-1"
+      {/* ═══ Map Section ═══ */}
+      <section className="py-8 sm:py-12 bg-slate-50">
+        <div className="container px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center mb-6 sm:mb-8">
+              <span className="inline-block text-[0.7rem] font-semibold tracking-[0.15em] uppercase text-amber-400 mb-2">
+                Find Us
+              </span>
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+                Head Office Location
+              </h2>
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-md border border-slate-200/60">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.089236873482!2d76.9810948!3d11.056621!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba85875f5da5219%3A0xf0d8694e6c43d621!2sSUPER%20MACHINE%20WORKS%20(P)%20LTD!5e0!3m2!1sen!2sin!4v1705320000000"
+                width="100%"
+                height="300"
+                style={{ border: 0, display: 'block', minHeight: '240px' }}
+                className="h-64 sm:h-80 md:h-96"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Super Textile Services office location"
               />
-              <ServiceCard
-                icon={<Wrench className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-600" />}
-                title="Technical Support"
-                description="Expert maintenance, repair services, and comprehensive on-site assistance."
-                link="/services"
-                delay={0.2}
-                className="group bg-gray-50/80 backdrop-blur-sm border border-gray-100 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-100/50 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300 hover:-translate-y-1"
-              />
-              <ServiceCard
-                icon={<Settings className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-violet-600" />}
-                title="Project Consultancy"
-                description="Professional guidance for installations, upgrades, and optimization."
-                link="/services"
-                delay={0.3}
-                className="group bg-gray-50/80 backdrop-blur-sm border border-gray-100 hover:border-violet-300 hover:shadow-xl hover:shadow-violet-100/50 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300 hover:-translate-y-1"
-              />
-              <ServiceCard
-                icon={<TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-emerald-600" />}
-                title="Turnkey Solutions"
-                description="Complete project implementation from planning through commissioning."
-                link="/services"
-                delay={0.4}
-                className="group bg-gray-50/80 backdrop-blur-sm border border-gray-100 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-100/50 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300 hover:-translate-y-1"
-              />
-            </Suspense>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Parts Inventory with improved CTA */}
-      <section className="py-12 sm:py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-100 rounded-full filter blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-blue-100 rounded-full filter blur-3xl" />
-        </div>
-
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <SectionTitle
-            title="Extensive Parts Inventory"
-            subtitle="10,000+ premium components ready for immediate dispatch"
-            className="text-gray-800"
-          />
-
-          <div className="mt-6 sm:mt-8 md:mt-12 parts-inventory-slider">
-            <Suspense fallback={<div className="text-center py-12">Loading inventory...</div>}>
-              <Slider {...partsInventorySettings}>
-                {partsCategories.map((category, index) => (
-                  <div key={index} className="px-1 sm:px-2 lg:px-3">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.05 }}
-                      className="group bg-white rounded-2xl overflow-hidden border border-gray-200 
-                               hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-100/50 
-                               transition-all duration-300 hover:-translate-y-1"
-                    >
-                      <div className="relative h-32 xs:h-36 sm:h-40 md:h-48 overflow-hidden">
-                        <img
-                          src={category.image}
-                          alt={category.name}
-                          width="300"
-                          height="300"
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent" />
-                        <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
-                          <span className="px-2 py-0.5 sm:px-2.5 sm:py-0.5 md:px-3 md:py-1 bg-indigo-600 text-white text-[10px] sm:text-xs md:text-sm font-bold rounded-full shadow-md">
-                            {category.count}
-                          </span>
-                        </div>
-                        <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3">
-                          <Package className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white/80" />
-                        </div>
-                      </div>
-                      <div className="p-2.5 sm:p-3 md:p-4">
-                        <h3 className="text-xs sm:text-sm md:text-base font-bold text-gray-900 group-hover:text-indigo-600 transition-colors line-clamp-2">
-                          {category.name}
-                        </h3>
-                      </div>
-                    </motion.div>
-                  </div>
-                ))}
-              </Slider>
-            </Suspense>
-          </div>
-
-          {/* 🔥 UPDATED CTA – warmer amber, better contrast, more responsive */}
+      {/* ═══ Feedback Section ═══ */}
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="container px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
           <motion.div
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            variants={fadeInUp}
-            className="mt-8 sm:mt-10 md:mt-12 text-center"
+            transition={{ duration: 0.6 }}
           >
-            <p className="text-sm sm:text-base md:text-lg font-medium text-slate-800 mb-4 sm:mb-6 max-w-2xl mx-auto px-2 sm:px-4">
-              Can't find the specific part you need? Our sourcing team can locate specialized
-              components from our global network.
-            </p>
-            <a
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-lg shadow-amber-200/60 hover:shadow-amber-300/80 transition-all duration-300 hover:scale-105 text-sm sm:text-base"
-            >
-              Contact Our Experts
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-            </a>
+            <div className="text-center mb-8">
+              <span className="inline-block text-[0.7rem] font-semibold tracking-[0.15em] uppercase text-amber-400 mb-2">
+                Client Feedback
+              </span>
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 mb-2">
+                Share Your Experience
+              </h2>
+              <p className="text-sm sm:text-base text-slate-500 max-w-md mx-auto">
+                Your feedback helps us improve. Submit and your email client will open with a
+                pre‑filled message.
+              </p>
+            </div>
+
+            <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 md:p-10 border border-slate-200/60">
+              <form onSubmit={handleFeedbackSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label
+                      htmlFor="feedback-name"
+                      className="block text-sm font-medium text-slate-700 mb-1"
+                    >
+                      Your Name *
+                    </label>
+                    <input
+                      id="feedback-name"
+                      type="text"
+                      required
+                      value={feedbackName}
+                      onChange={(e) => setFeedbackName(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all outline-none text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="feedback-email"
+                      className="block text-sm font-medium text-slate-700 mb-1"
+                    >
+                      Email Address *
+                    </label>
+                    <input
+                      id="feedback-email"
+                      type="email"
+                      required
+                      value={feedbackEmail}
+                      onChange={(e) => setFeedbackEmail(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all outline-none text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Rating */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Rating *
+                  </label>
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setFeedbackRating(star)}
+                        className="p-1 focus:outline-none transition-transform hover:scale-110"
+                        aria-label={`Rate ${star} stars`}
+                      >
+                        <Star
+                          size={28}
+                          className="sm:w-8 sm:h-8"
+                          fill={star <= feedbackRating ? '#f5b342' : 'none'}
+                          stroke={star <= feedbackRating ? '#f5b342' : '#dce0e6'}
+                          strokeWidth={1.5}
+                        />
+                      </button>
+                    ))}
+                    <span className="text-sm text-slate-500 ml-2">
+                      {feedbackRating} / 5
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="feedback-comment"
+                    className="block text-sm font-medium text-slate-700 mb-1"
+                  >
+                    Your Feedback *
+                  </label>
+                  <textarea
+                    id="feedback-comment"
+                    required
+                    rows={4}
+                    value={feedbackComment}
+                    onChange={(e) => setFeedbackComment(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all outline-none text-sm resize-y"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm shadow-lg shadow-slate-900/25 hover:shadow-slate-900/35 hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <Send size={18} />
+                  Submit Feedback
+                </button>
+                <p className="text-xs text-slate-400 mt-2">
+                  By submitting, your default email client will open. No data is stored on our
+                  server.
+                </p>
+              </form>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -376,4 +439,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default ContactPage;
